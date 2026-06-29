@@ -1,35 +1,36 @@
-import Button from "./components/ui/Button";
+import { Routes, Route } from "react-router-dom";
+
+import MainLayout from "./layouts/MainLayout";
+
+import Home from "./pages/Home";
+import About from "./pages/About/About";
+import Contact from "./pages/Contact/Contact";
+import Events from "./pages/Events/Events";
+import Login from "./pages/Login/Login";
 
 function App() {
-  return (
-    <div className="min-h-screen bg-slate-100 flex flex-col justify-center items-center gap-4">
+    return (
+        <Routes>
 
-      <Button>
-        Primary
-      </Button>
+            <Route element={<MainLayout />}>
 
-      <Button variant="secondary">
-        Secondary
-      </Button>
+                <Route path="/" element={<Home />} />
 
-      <Button variant="outline">
-        Outline
-      </Button>
+                <Route path="/events" element={<Events />} />
 
-      <Button size="sm">
-        Small
-      </Button>
+                <Route path="/about" element={<About />} />
 
-      <Button size="lg">
-        Large
-      </Button>
+                <Route path="/contact" element={<Contact />} />
 
-      <Button disabled>
-        Disabled
-      </Button>
+            </Route>
 
-    </div>
-  );
+            <Route
+                path="/login"
+                element={<Login />}
+            />
+
+        </Routes>
+    );
 }
 
 export default App;
