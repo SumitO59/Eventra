@@ -1,10 +1,21 @@
+import clsx from "clsx";
+
 function Card({
     children,
-    className = ""
+    className = "",
+    hoverable = true,
 }) {
     return (
         <div
-            className={`rounded-xl border border-gray-200 bg-white p-6 shadow ${className}`}
+            className={clsx(
+                "rounded-2xl",
+                "border border-slate-100",
+                "bg-white",
+                "shadow-sm",
+                hoverable &&
+                    "transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
+                className
+            )}
         >
             {children}
         </div>
