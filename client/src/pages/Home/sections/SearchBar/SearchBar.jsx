@@ -39,7 +39,7 @@ function SearchBar() {
             </button>
 
             {/* Search Button */}
-            <div className="p-2">
+          <div className="w-full p-2 md:w-auto">
                 <Button>
                     Search
                 </Button>

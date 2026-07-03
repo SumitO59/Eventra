@@ -1,5 +1,3 @@
-import clsx from "clsx";
-
 function Card({
     children,
     className = "",
@@ -7,15 +5,16 @@ function Card({
 }) {
     return (
         <div
-            className={clsx(
-                "rounded-2xl",
-                "border border-slate-100",
-                "bg-white",
-                "shadow-sm",
-                hoverable &&
-                    "transition-all duration-300 hover:-translate-y-1 hover:shadow-xl",
-                className
-            )}
+            className={`
+        rounded-2xl
+        bg-white
+        p-6
+        shadow-sm
+        transition-all
+        duration-300
+        ${hoverable ? "hover:-translate-y-1 hover:shadow-xl" : ""}
+        ${className}
+      `}
         >
             {children}
         </div>

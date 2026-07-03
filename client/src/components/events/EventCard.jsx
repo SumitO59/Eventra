@@ -15,45 +15,51 @@ function EventCard({ event }) {
     return (
         <Card
             hoverable
-            className="h-full overflow-hidden p-0 flex flex-col"
+            className="group flex h-full flex-col overflow-hidden p-0"
         >
             {/* Event Image */}
-          <div className="relative h-56 overflow-hidden">
-    <img
-        src={event.image}
-        alt={event.title}
-        className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-    />
+            <div className="relative h-52 overflow-hidden sm:h-56">
+                <img
+                    src={image}
+                    alt={title}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                />
 
-    <span className="absolute left-4 top-4 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
-        {event.category}
-    </span>
-</div>
+                <span className="absolute left-4 top-4 rounded-full bg-indigo-600 px-3 py-1 text-xs font-semibold text-white">
+                    {category}
+                </span>
+            </div>
 
             {/* Content */}
-            <div className="flex flex-1 flex-col p-6">
+            <div className="flex flex-1 flex-col p-5 sm:p-6">
+
                 <span className="text-sm font-medium text-blue-600">
                     {category}
                 </span>
 
-                <h3 className="mt-2 text-xl font-semibold text-slate-900">
+                <h3 className="mt-2 text-xl font-semibold leading-tight text-slate-900">
                     {title}
                 </h3>
 
-                <div className="mt-4 space-y-2 text-sm text-slate-600">
+                <div className="mt-4 space-y-2 text-sm leading-6 text-slate-600">
                     <p>📅 {date}</p>
                     <p>📍 {location}</p>
                     <p>👥 {attendees} attending</p>
                 </div>
 
-                <div className="mt-auto flex items-center justify-between pt-6">
+                <div className="mt-auto flex items-center justify-between gap-4 pt-6">
+
                     <span className="text-lg font-bold text-slate-900">
                         {price}
                     </span>
 
-                    <Button size="sm">
+                    <Button
+                        size="sm"
+                        className="shrink-0"
+                    >
                         View Event
                     </Button>
+
                 </div>
             </div>
         </Card>

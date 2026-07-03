@@ -3,12 +3,10 @@ import Container from "../../../../components/ui/Container";
 import SectionHeader from "../../../../components/common/SectionHeader";
 import EventCard from "../../../../components/events/EventCard";
 
-import {events} from "../../data/events";
+import { events } from "../../data/events";
 
 function FeaturedEventsSection() {
-    const featuredEvents = events.filter(
-        (event) => event.featured
-    );
+    const featuredEvents = events.filter((event) => event.featured);
 
     return (
         <Section>
@@ -18,7 +16,7 @@ function FeaturedEventsSection() {
                     subtitle="Discover hand-picked events happening across the country."
                 />
 
-              <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+                <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 xl:mt-12 xl:grid-cols-3">
                     {featuredEvents.map((event) => (
                         <EventCard
                             key={event.id}

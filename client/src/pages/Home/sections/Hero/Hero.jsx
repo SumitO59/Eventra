@@ -41,13 +41,16 @@ function Hero() {
 
                         <SearchBar />
 
-                        <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+                        <div className="flex flex-col gap-4 pt-4 sm:flex-row">
 
-                            <Button>
+                            <Button className="w-full sm:w-auto">
                                 Explore Events
                             </Button>
 
-                            <Button variant="outline">
+                            <Button
+                                variant="outline"
+                                className="w-full sm:w-auto"
+                            >
                                 Create Event
                             </Button>
 
@@ -55,7 +58,7 @@ function Hero() {
 
                         {/* Stats */}
 
-                        <div className="flex flex-wrap gap-10 pt-6">
+                       <div className="flex flex-wrap justify-center gap-8 pt-8 text-center lg:justify-start lg:text-left">
 
                             <div>
                                 <h3 className="text-2xl font-bold text-slate-900">

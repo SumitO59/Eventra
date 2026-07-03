@@ -1,8 +1,8 @@
 import Section from "../../../../components/ui/Section";
 import Container from "../../../../components/ui/Container";
+import SectionHeader from "../../../../components/common/SectionHeader";
 import CategoryCard from "../../../../components/categories/CategoryCard";
 import categories from "../../data/categories";
-import SectionHeader from "../../../../components/common/SectionHeader";
 
 function CategoriesSection() {
     return (
@@ -12,7 +12,8 @@ function CategoriesSection() {
                     title="Browse Event Categories"
                     subtitle="Discover events tailored to your interests—from technology and music to sports, education, and more."
                 />
-                <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+
+                <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
                     {categories.map((category) => (
                         <CategoryCard
                             key={category.id}
