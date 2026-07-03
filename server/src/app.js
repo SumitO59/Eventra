@@ -1,3 +1,4 @@
+
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -7,22 +8,22 @@ import morgan from "morgan";
 
 const app = express();
 
-// Security
+// Security Middleware
 app.use(helmet());
 
 // Enable CORS
 app.use(cors());
 
-// Parse JSON
+// Parse JSON Request Body
 app.use(express.json());
 
 // Parse Cookies
 app.use(cookieParser());
 
-// Compress responses
+// Compress Responses
 app.use(compression());
 
-// Logging
+// HTTP Request Logger
 app.use(morgan("dev"));
 
 // Health Check Route
