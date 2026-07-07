@@ -1,6 +1,9 @@
 import Card from "../ui/Card";
 import Button from "../ui/Button";
 
+import { formatDate } from "../../utils/formatDate";
+import { getEventImage } from "../../utils/getEventImage";
+
 function EventCard({ event }) {
     const {
         title,
@@ -9,7 +12,6 @@ function EventCard({ event }) {
         location,
         price,
         attendees,
-        image,
     } = event;
 
     return (
@@ -17,10 +19,9 @@ function EventCard({ event }) {
             hoverable
             className="group flex h-full flex-col overflow-hidden p-0"
         >
-            {/* Event Image */}
             <div className="relative h-52 overflow-hidden sm:h-56">
                 <img
-                    src={image}
+                    src={getEventImage(event)}
                     alt={title}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
@@ -30,7 +31,6 @@ function EventCard({ event }) {
                 </span>
             </div>
 
-            {/* Content */}
             <div className="flex flex-1 flex-col p-5 sm:p-6">
 
                 <span className="text-sm font-medium text-blue-600">
@@ -42,7 +42,7 @@ function EventCard({ event }) {
                 </h3>
 
                 <div className="mt-4 space-y-2 text-sm leading-6 text-slate-600">
-                    <p>📅 {date}</p>
+                    <p>📅 {formatDate(date)}</p>
                     <p>📍 {location}</p>
                     <p>👥 {attendees} attending</p>
                 </div>
