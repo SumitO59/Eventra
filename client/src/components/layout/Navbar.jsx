@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HiMenuAlt3, HiX } from "react-icons/hi";
+import { useAuth } from "../../context/AuthContext";
 
 import Button from "../ui/Button";
 
@@ -14,6 +15,10 @@ const links = [
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const navigate = useNavigate();
+
+  const { isAuthenticated, user, logout } = useAuth();
+
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
 
@@ -23,6 +28,12 @@ function Navbar() {
   }, [menuOpen]);
 
   const closeMenu = () => setMenuOpen(false);
+
+  const handleLogout = () => {
+    logout();
+    setMenuOpen(false);
+    navigate("/");
+  };
 
   return (
     <nav className="sticky top-0 z-50 border-b bg-white/90 backdrop-blur">
@@ -52,11 +63,27 @@ function Navbar() {
 
         {/* Desktop Buttons */}
         <div className="hidden items-center gap-3 md:flex">
-          <Link to="/login">
-            <Button variant="outline">Login</Button>
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <span className="text-sm font-medium text-gray-700">
+                Hello, {user?.name}
+              </span>
 
-          <Button variant="primary">Sign Up</Button>
+              <Button variant="outline" onClick={handleLogout}>
+                Logout
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to="/login">
+                <Button variant="outline">Login</Button>
+              </Link>
+
+              <Link to="/register">
+                <Button variant="primary">Sign Up</Button>
+              </Link>
+            </>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -68,11 +95,7 @@ function Navbar() {
           onClick={() => setMenuOpen(!menuOpen)}
           className="rounded-lg p-2 transition hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 md:hidden"
         >
-          {menuOpen ? (
-            <HiX size={28} />
-          ) : (
-            <HiMenuAlt3 size={28} />
-          )}
+          {menuOpen ? <HiX size={28} /> : <HiMenuAlt3 size={28} />}
         </button>
       </div>
 
@@ -96,21 +119,35 @@ function Navbar() {
           ))}
 
           <div className="mt-5 flex flex-col gap-3">
-            <Link to="/login" onClick={closeMenu}>
-              <Button
-                variant="outline"
-                className="w-full"
-              >
-                Login
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <p className="text-center font-medium">
+                  Hello, {user?.name}
+                </p>
 
-            <Button
-              variant="primary"
-              className="w-full"
-            >
-              Sign Up
-            </Button>
+                <Button
+                  variant="outline"
+                  className="w-full"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={closeMenu}>
+                  <Button variant="outline" className="w-full">
+                    Login
+                  </Button>
+                </Link>
+
+                <Link to="/register" onClick={closeMenu}>
+                  <Button variant="primary" className="w-full">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </div>
