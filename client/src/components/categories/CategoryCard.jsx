@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Card from "../ui/Card";
 
 function CategoryCard({ icon, title, description }) {
@@ -44,7 +45,8 @@ function CategoryCard({ icon, title, description }) {
                 {description}
             </p>
 
-            <button
+            <Link
+                to="/events"
                 className="
                     mt-6
                     font-medium
@@ -56,7 +58,7 @@ function CategoryCard({ icon, title, description }) {
                 "
             >
                 Explore →
-            </button>
+            </Link>
         </Card>
     );
 }

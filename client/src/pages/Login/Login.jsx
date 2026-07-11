@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { loginUser } from "../../services/authService";
 
 export default function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+const from = location.state?.from?.pathname || "/dashboard";
 
   const { login, isAuthenticated } = useAuth();
 
@@ -16,11 +18,11 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate("/", { replace: true });
-    }
-  }, [isAuthenticated, navigate]);
+ useEffect(() => {
+  if (isAuthenticated) {
+    navigate(from, { replace: true });
+  }
+}, [isAuthenticated, from, navigate]);
 
   const handleChange = (e) => {
     setError("");

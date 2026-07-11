@@ -3,10 +3,12 @@ import { Calendar, MapPin, Users } from "lucide-react";
 
 import { formatDate } from "../../utils/formatDate";
 
-const EventCard = ({ event }) => {
+export default function RegistrationCard({
+  event,
+  onCancelRegistration,
+}) {
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
-      {/* Image */}
       <img
         src={
           event.image ||
@@ -17,48 +19,49 @@ const EventCard = ({ event }) => {
       />
 
       <div className="p-5">
-        {/* Category */}
         <span className="inline-block rounded-full bg-indigo-100 px-3 py-1 text-xs font-semibold text-indigo-600">
           {event.category}
         </span>
 
-        {/* Title */}
         <h2 className="mt-3 text-xl font-bold">
           {event.title}
         </h2>
 
-        {/* Date */}
         <div className="mt-4 flex items-center gap-2 text-gray-600">
           <Calendar size={18} />
           <span>{formatDate(event.date)}</span>
         </div>
 
-        {/* Location */}
         <div className="mt-2 flex items-center gap-2 text-gray-600">
           <MapPin size={18} />
           <span>{event.location}</span>
         </div>
 
-        {/* Attendees */}
         <div className="mt-2 flex items-center gap-2 text-gray-600">
           <Users size={18} />
           <span>{event.attendees} Registered</span>
         </div>
 
-        {/* Price */}
         <p className="mt-4 text-lg font-semibold text-indigo-600">
-          {event.price === 0 ? "Free" : `₹${event.price}`}
+          {Number(event.price) === 0 ? "Free" : `₹${event.price}`}
         </p>
 
-        <Link
-          to={`/events/${event._id}`}
-          className="mt-5 inline-block w-full rounded-lg bg-indigo-600 px-4 py-2 text-center font-medium text-white transition hover:bg-indigo-700"
-        >
-          View Details
-        </Link>
+        <div className="mt-5 space-y-2">
+          <Link
+            to={`/events/${event._id}`}
+            className="block w-full rounded-lg bg-indigo-600 px-4 py-2 text-center font-medium text-white transition hover:bg-indigo-700"
+          >
+            View Details
+          </Link>
+
+          <button
+            onClick={() => onCancelRegistration(event._id)}
+            className="w-full rounded-lg bg-red-600 px-4 py-2 font-medium text-white transition hover:bg-red-700"
+          >
+            Cancel Registration
+          </button>
+        </div>
       </div>
     </div>
   );
-};
-
-export default EventCard;
+}

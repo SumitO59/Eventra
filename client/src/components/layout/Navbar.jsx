@@ -4,6 +4,7 @@ import { HiMenuAlt3, HiX } from "react-icons/hi";
 import { useAuth } from "../../context/AuthContext";
 
 import Button from "../ui/Button";
+import UserMenu from "./UserMenu";
 
 const links = [
   { name: "Home", path: "/" },
@@ -17,7 +18,7 @@ function Navbar() {
 
   const navigate = useNavigate();
 
-  const { isAuthenticated, user, logout } = useAuth();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "auto";
@@ -31,7 +32,7 @@ function Navbar() {
 
   const handleLogout = () => {
     logout();
-    setMenuOpen(false);
+    closeMenu();
     navigate("/");
   };
 
@@ -61,20 +62,12 @@ function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop Buttons */}
-        <div className="hidden items-center gap-3 md:flex">
+        {/* Desktop User Area */}
+        <div className="hidden items-center md:flex">
           {isAuthenticated ? (
-            <>
-              <span className="text-sm font-medium text-gray-700">
-                Hello, {user?.name}
-              </span>
-
-              <Button variant="outline" onClick={handleLogout}>
-                Logout
-              </Button>
-            </>
+            <UserMenu onLogout={handleLogout} />
           ) : (
-            <>
+            <div className="flex items-center gap-3">
               <Link to="/login">
                 <Button variant="outline">Login</Button>
               </Link>
@@ -82,7 +75,7 @@ function Navbar() {
               <Link to="/register">
                 <Button variant="primary">Sign Up</Button>
               </Link>
-            </>
+            </div>
           )}
         </div>
 
@@ -121,9 +114,17 @@ function Navbar() {
           <div className="mt-5 flex flex-col gap-3">
             {isAuthenticated ? (
               <>
-                <p className="text-center font-medium">
-                  Hello, {user?.name}
-                </p>
+                <Link to="/dashboard" onClick={closeMenu}>
+                  <Button variant="outline" className="w-full">
+                    Dashboard
+                  </Button>
+                </Link>
+
+                <Link to="/events/create" onClick={closeMenu}>
+                  <Button variant="primary" className="w-full">
+                    Create Event
+                  </Button>
+                </Link>
 
                 <Button
                   variant="outline"
