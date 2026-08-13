@@ -14,6 +14,8 @@ export const createEvent = async (req, res) => {
             endTime,
             location,
             image,
+            price,
+            featured,
             capacity,
         } = req.body;
 
@@ -26,6 +28,8 @@ export const createEvent = async (req, res) => {
             endTime,
             location,
             image,
+            price,
+            featured,
             capacity,
             organizer: req.user._id,
         });
@@ -52,10 +56,15 @@ export const getAllEvents = async (req, res) => {
             .populate("organizer", "name email")
             .sort({ createdAt: -1 });
 
+        const formattedEvents = events.map((event) => ({
+            ...event.toObject(),
+            attendees: event.registeredUsers.length,
+        }));
+
         res.status(200).json({
             success: true,
-            count: events.length,
-            events,
+            count: formattedEvents.length,
+            events: formattedEvents,
         });
     } catch (error) {
         res.status(500).json({
@@ -69,29 +78,46 @@ export const getAllEvents = async (req, res) => {
 // @route   GET /api/events/:id
 // @access  Public
 export const getEventById = async (req, res) => {
-    try {
+  try {
+    const event = await Event.findById(req.params.id)
+      .populate("organizer", "name email");
 
-        const event = await Event.findById(req.params.id)
-            .populate("organizer", "name email");
-
-        if (!event) {
-            return res.status(404).json({
-                success: false,
-                message: "Event not found",
-            });
-        }
-
-        res.status(200).json({
-            success: true,
-            event,
-        });
-
-    } catch (error) {
-        res.status(500).json({
-            success: false,
-            message: error.message,
-        });
+    if (!event) {
+      return res.status(404).json({
+        success: false,
+        message: "Event not found",
+      });
     }
+
+    const attendees = event.registeredUsers.length;
+
+    const isRegistered =
+      req.user &&
+      event.registeredUsers.some(
+        (userId) =>
+          userId.toString() === req.user._id.toString()
+      );
+
+    const isOrganizer =
+      req.user &&
+      event.organizer._id.toString() ===
+        req.user._id.toString();
+
+    res.status(200).json({
+      success: true,
+      event: {
+        ...event.toObject(),
+        attendees,
+        isRegistered,
+        isOrganizer,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
 };
 
 // @desc    Update event
@@ -246,8 +272,8 @@ export const getMyEvents = async (req, res) => {
         const events = await Event.find({
             organizer: req.user._id,
         })
-        .populate("organizer", "name email")
-        .sort({ createdAt: -1 });
+            .populate("organizer", "name email")
+            .sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
@@ -274,8 +300,8 @@ export const getMyRegistrations = async (req, res) => {
         const events = await Event.find({
             registeredUsers: req.user._id,
         })
-        .populate("organizer", "name email")
-        .sort({ date: 1 });
+            .populate("organizer", "name email")
+            .sort({ date: 1 });
 
         res.status(200).json({
             success: true,

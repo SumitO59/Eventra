@@ -15,7 +15,11 @@ const app = express();
 app.use(helmet());
 
 // Enable CORS
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+    })
+);
 
 // Parse JSON Request Body
 app.use(express.json());

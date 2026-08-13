@@ -2,19 +2,35 @@ import { Link } from "react-router-dom";
 import { Calendar, MapPin, Users } from "lucide-react";
 
 import { formatDate } from "../../utils/formatDate";
+import { getEventImage } from "../../utils/getEventImage";
 
 const EventCard = ({ event }) => {
+  const displayPrice =
+    !event.price ||
+    event.price === 0 ||
+    event.price === "0" ||
+    event.price.toLowerCase?.() === "free"
+      ? "Free"
+      : event.price.startsWith("₹")
+        ? event.price
+        : `₹${event.price}`;
+
   return (
-    <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
+    <div className="group overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-lg">
       {/* Image */}
-      <img
-        src={
-          event.image ||
-          "https://placehold.co/600x400?text=Event"
-        }
-        alt={event.title}
-        className="h-52 w-full object-cover"
-      />
+      <div className="h-52 overflow-hidden">
+        <img
+          src={getEventImage(event)}
+          alt={event.title}
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
+          onError={(e) => {
+            e.currentTarget.src = getEventImage({
+              ...event,
+              image: "",
+            });
+          }}
+        />
+      </div>
 
       <div className="p-5">
         {/* Category */}
@@ -23,7 +39,7 @@ const EventCard = ({ event }) => {
         </span>
 
         {/* Title */}
-        <h2 className="mt-3 text-xl font-bold">
+        <h2 className="mt-3 line-clamp-2 text-xl font-bold text-gray-900">
           {event.title}
         </h2>
 
@@ -36,18 +52,20 @@ const EventCard = ({ event }) => {
         {/* Location */}
         <div className="mt-2 flex items-center gap-2 text-gray-600">
           <MapPin size={18} />
-          <span>{event.location}</span>
+          <span className="line-clamp-1">{event.location}</span>
         </div>
 
         {/* Attendees */}
         <div className="mt-2 flex items-center gap-2 text-gray-600">
           <Users size={18} />
-          <span>{event.attendees} Registered</span>
+          <span>
+            {event.attendees ?? event.registeredUsers?.length ?? 0} Registered
+          </span>
         </div>
 
         {/* Price */}
         <p className="mt-4 text-lg font-semibold text-indigo-600">
-          {event.price === 0 ? "Free" : `₹${event.price}`}
+          {displayPrice}
         </p>
 
         <Link

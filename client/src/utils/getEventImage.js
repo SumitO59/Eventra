@@ -3,20 +3,31 @@ import hackathonImage from "../assets/events/hackathon.jpg";
 import workshopImage from "../assets/events/workshop.jpg";
 
 export const getEventImage = (event) => {
-    // Use uploaded image if available
-    if (event.image && event.image.trim() !== "") {
+    if (event?.image && event.image.trim() !== "") {
         return event.image;
     }
 
-    switch (event.category.toLowerCase()) {
-        case "concert":
-            return concertImage;
-
-        case "hackathon":
+    switch (event?.category?.toLowerCase()) {
+        case "technical":
             return hackathonImage;
+
+        case "cultural":
+            return concertImage;
 
         case "workshop":
             return workshopImage;
+
+        case "sports":
+            return concertImage;
+
+        case "academic":
+            return workshopImage;
+
+        case "leadership":
+            return workshopImage;
+
+        case "networking":
+            return concertImage;
 
         default:
             return workshopImage;

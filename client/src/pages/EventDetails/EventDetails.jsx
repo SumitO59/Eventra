@@ -17,6 +17,7 @@ import {
 } from "../../services/eventService";
 
 import { formatDate } from "../../utils/formatDate";
+import { getEventImage } from "../../utils/getEventImage";
 
 const EventDetails = () => {
     const { id } = useParams();
@@ -147,12 +148,15 @@ const EventDetails = () => {
         <section className="max-w-6xl mx-auto px-6 py-12">
             {/* Banner */}
             <img
-                src={
-                    event.image ||
-                    "https://placehold.co/1200x500?text=Event"
-                }
+                src={getEventImage(event)}
                 alt={event.title}
                 className="w-full h-[420px] rounded-2xl object-cover"
+                onError={(e) => {
+                    e.currentTarget.src = getEventImage({
+                        ...event,
+                        image: "",
+                    });
+                }}
             />
 
             {/* Header */}
@@ -277,8 +281,8 @@ const EventDetails = () => {
                         (!event.isRegistered && isFull)
                     }
                     className={`mt-10 w-full rounded-xl py-4 text-lg font-semibold text-white transition disabled:cursor-not-allowed disabled:bg-gray-400 ${event.isRegistered
-                            ? "bg-red-600 hover:bg-red-700"
-                            : "bg-indigo-600 hover:bg-indigo-700"
+                        ? "bg-red-600 hover:bg-red-700"
+                        : "bg-indigo-600 hover:bg-indigo-700"
                         }`}
                 >
                     {registering

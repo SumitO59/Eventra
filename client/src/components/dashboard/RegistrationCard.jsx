@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Calendar, MapPin, Users } from "lucide-react";
 
 import { formatDate } from "../../utils/formatDate";
+import { getEventImage } from "../../utils/getEventImage";
 
 export default function RegistrationCard({
   event,
@@ -10,12 +11,15 @@ export default function RegistrationCard({
   return (
     <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md">
       <img
-        src={
-          event.image ||
-          "https://placehold.co/600x400?text=Event"
-        }
+        src={getEventImage(event)}
         alt={event.title}
         className="h-52 w-full object-cover"
+        onError={(e) => {
+          e.currentTarget.src = getEventImage({
+            ...event,
+            image: "",
+          });
+        }}
       />
 
       <div className="p-5">

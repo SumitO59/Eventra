@@ -46,6 +46,13 @@ const eventSchema = new mongoose.Schema(
             default: "",
         },
 
+        // NEW
+        price: {
+            type: String,
+            default: "Free",
+            trim: true,
+        },
+
         capacity: {
             type: Number,
             required: true,
@@ -64,6 +71,12 @@ const eventSchema = new mongoose.Schema(
                 ref: "User",
             },
         ],
+
+        // NEW
+        featured: {
+            type: Boolean,
+            default: false,
+        },
 
         status: {
             type: String,
