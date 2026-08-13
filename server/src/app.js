@@ -1,4 +1,6 @@
+import dotenv from "dotenv";
 
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import helmet from "helmet";
@@ -16,9 +18,9 @@ app.use(helmet());
 
 // Enable CORS
 app.use(
-    cors({
-        origin: "http://localhost:5173",
-    })
+  cors({
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
+  })
 );
 
 // Parse JSON Request Body
